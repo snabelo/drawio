@@ -127,7 +127,7 @@ mxStencilRegistry.allowEval = false;
 		if (plugins != null && plugins.length > 0)
 		{
 			// Workaround for body not defined if plugins are used in dev mode
-			if (urlParams['dev'] == '1')
+			if (false /*urlParams['dev'] == '1'*/)
 			{
 				EditorUi.debug('App.main', 'Skipped plugins', plugins);
 			}
@@ -196,7 +196,7 @@ mxStencilRegistry.allowEval = false;
 			break;
 		}
 
-		mxmeta(null, 'default-src \'self\'; connect-src \'self\' https://fonts.googleapis.com https://fonts.gstatic.com; img-src * data:; media-src *; font-src *; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com', 'Content-Security-Policy');
+		//mxmeta(null, 'default-src \'self\'; connect-src \'self\' https://fonts.googleapis.com https://fonts.gstatic.com; img-src * data:; media-src *; font-src *; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com', 'Content-Security-Policy');
 
 		//Disable web plugins loading
 		urlParams['plugins'] = '0';
@@ -865,6 +865,10 @@ mxStencilRegistry.allowEval = false;
 					this.fileCreated(file, null, null, null);					
 					this.saveFile();
 				}
+                // Special case to prevent the annoying exception message /Kim
+                else if (e?.message?.includes('EISDIR') ?? false) {
+                    console.error('The unknown \'file loading problem\':', e);
+                }
 				else
 				{
 					this.handleError(e);
